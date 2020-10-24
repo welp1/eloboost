@@ -1,4 +1,4 @@
-## Команда <eloboost>:
+## Команда "eloboost":
 ## Game 1: Flappy Bird
 
 **Группа БА-ИВТ-17**:
