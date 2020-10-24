@@ -1,5 +1,4 @@
 ## Команда "eloboost":
-## Game 1: Flappy Bird
 
 **Группа БА-ИВТ-17**:
 <br>Ву Ба Шанг
@@ -7,6 +6,7 @@
 <br>Тудупов Дугар
 <br>Диана Оконешникова
 
+## Game 1: Flappy Bird
 ### Команды:
 ```
 python ./setup.py
