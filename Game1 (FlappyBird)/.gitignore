@@ -1,7 +1,0 @@
-cocos2d/
-proj.android/
-proj.ios_mac/
-proj.linux/
-proj.win32/
-.cocos-project.json
-CMakeLists.txt
