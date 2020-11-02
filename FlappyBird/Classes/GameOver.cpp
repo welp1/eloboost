@@ -63,8 +63,8 @@ bool GameOver::init()
     label->setColor(Color3B::RED);
     addChild(label);
 
-    // Add image "REPLAY" with callback HelloWorld::play
-    auto replay = MenuItemImage::create("replay_1.png", "replay_2.png", CC_CALLBACK_1(GameOver::replay, this));
+    // Add image "REPLAY" with callback GameOver::play
+    auto replay = MenuItemImage::create("flappyBird/replay_1.png", "flappyBird/replay_2.png", CC_CALLBACK_1(GameOver::replay, this));
     CCASSERT(replay != nullptr, "Fail to load REPLAY images");
     // Add REPLAY to menu
     // create menu, it's an autorelease object

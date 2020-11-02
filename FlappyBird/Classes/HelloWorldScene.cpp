@@ -52,11 +52,14 @@ bool HelloWorld::init()
 
     auto visibleSize = Director::getInstance()->getVisibleSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
+
+    //auto volumeGameMenu = AudioEngine::play2d("sounds/Flappy_Bird/GameMenu.mp3", true);
+
     // Add image "PLAY" with callback HelloWorld::play
     //auto play = MenuItemLabel::create(Label::createWithTTF("PLAY", "fonts/Marker Felt.ttf", 40),
         //CC_CALLBACK_1(HelloWorld::play, this));
 
-    auto play = MenuItemImage::create("play_1.png", "play_2.png", CC_CALLBACK_1(HelloWorld::play, this));
+    auto play = MenuItemImage::create("flappyBird/play_1.png", "flappyBird/play_2.png", CC_CALLBACK_1(HelloWorld::play, this));
     CCASSERT(play != nullptr, "Fail to load PLAY images");
 
     // Assert that play is not null
@@ -71,7 +74,13 @@ bool HelloWorld::init()
     return true;
 }
 
+void HelloWorld::stopEffect(float dt)
+{
+    AudioEngine::end();
+}
+
 void HelloWorld::play(Ref* pSender) {
+    //stopEffect(AudioEngine::play2d("sounds/Flappy_Bird/GameMenu.mp3"));
     auto gameScene = GameScene::createScene();
     Director::getInstance()->replaceScene(
         TransitionFade::create(0.5, gameScene, Color3B(0, 255, 255)));

@@ -25,6 +25,7 @@
 #include "GameScene.h"
 #include "HelloWorldScene.h"
 #include "GameOver.h"
+#include "PikachuGameMenu.h"
 #include "AudioEngine.h"
 
 USING_NS_CC;
@@ -64,11 +65,13 @@ bool GameScene::init()
     auto visibleSize = Director::getInstance()->getVisibleSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
+    //stopEffect(AudioEngine::play2d("sounds/Flappy_Bird/GameMenu.mp3"));
+
     // add "background" splash screen"
-    auto sprite = Sprite::create("background_ykt.png");
+    auto sprite = Sprite::create("flappyBird/background_ykt.png");
     if (sprite == nullptr)
     {
-        problemLoading("'background_ykt.png'");
+        problemLoading("'flappyBird/background_ykt.png'");
     }
     else
     {
@@ -96,8 +99,7 @@ bool GameScene::init()
     edgeNode->setPhysicsBody(edgeBody);
     addChild(edgeNode);
 
-    bird = Sprite::create("bird1_1.png");
-    bird->setScale(0.3f);
+    bird = Sprite::create("flappyBird/bird1_1.png");
     bird->setPosition(Vec2(visibleSize.width / 5, visibleSize.height / 2));
     auto birdPhysic = PhysicsBody::createBox(bird->getContentSize());
     birdPhysic->setCollisionBitmask(4);
@@ -128,6 +130,11 @@ bool GameScene::init()
     return true;
 }
 
+void GameScene::stopEffect(float dt)
+{
+    AudioEngine::end();
+}
+
 bool GameScene::OnContactBegan(cocos2d::PhysicsContact& contact)
 {
     PhysicsBody* a = contact.getShapeA()->getBody();
@@ -136,7 +143,7 @@ bool GameScene::OnContactBegan(cocos2d::PhysicsContact& contact)
     if (a->getCollisionBitmask() == 4 && b->getCollisionBitmask() == 3 || 
         a->getCollisionBitmask() == 3 && b-> getCollisionBitmask() == 4)
     {
-        auto volumePoint = AudioEngine::play2d("sounds/point.mp3");
+        auto volumePoint = AudioEngine::play2d("sounds/Flappy_Bird/point.mp3");
         score++;
         std::string tempScore = cocos2d::StringUtils::format("%i", score);
         label->setString(tempScore);
@@ -146,22 +153,27 @@ bool GameScene::OnContactBegan(cocos2d::PhysicsContact& contact)
         if (a->getCollisionBitmask() == 4 && b->getCollisionBitmask() == 2 ||
             a->getCollisionBitmask() == 2 && b->getCollisionBitmask() == 4)
         {
-            auto volumeDie = AudioEngine::play2d("sounds/hit.mp3");
+            auto volumeDie = AudioEngine::play2d("sounds/Flappy_Bird/hit.mp3");
             auto sqe = GameOver::createScene();
             Director::getInstance()->replaceScene(sqe);
         }
     }
 
+    if (score == 1)
+    {
+        auto pikachuGameMenu = PikachuGameMenu::createScene();
+        Director::getInstance()->replaceScene(
+            TransitionFade::create(0.5, pikachuGameMenu, Color3B(0, 255, 255)));
+    }
     return true;
 }
 
 bool GameScene::OnTouchBegan(cocos2d::Touch* touch, cocos2d::Event* event)
 {
     isFalling = false;
-    auto volumeDie = AudioEngine::play2d("sounds/wing.mp3");
+    auto volumeDie = AudioEngine::play2d("sounds/Flappy_Bird/wing.mp3");
     auto birdStopFly = static_cast<cocos2d::SEL_SCHEDULE>(&GameScene::stopFly);
     this->schedule(birdStopFly, 0.2);
-    //this->scheduleOnce(schedule_selector(GameScene::stopFly), 0.25);
     return true;
 }
 
@@ -187,8 +199,8 @@ void GameScene::update(float dt)
 void GameScene::CreatePipe(float dt)
 {
     auto visibleSize = Director::getInstance()->getVisibleSize();
-    auto topPipe = Sprite::create("pipeDown.png");
-    auto bottomPipe = Sprite::create("pipeUp.png");
+    auto topPipe = Sprite::create("flappyBird/pipeDown.png");
+    auto bottomPipe = Sprite::create("flappyBird/pipeUp.png");
 
     auto topPhysic = PhysicsBody::createBox(topPipe->getContentSize());
     topPhysic->setCollisionBitmask(2);
@@ -219,7 +231,7 @@ void GameScene::CreatePipe(float dt)
     auto topPipePosition = random * visibleSize.height + topPipe->getContentSize().height / 2;
     topPipe->setPosition(Vec2(visibleSize.width + topPipe->getContentSize().width / 2, topPipePosition));
 
-    bottomPipe->setPosition(Vec2(topPipe->getPositionX(), topPipePosition - (Sprite::create("bird0_1.png")->getContentSize().height) * 5
+    bottomPipe->setPosition(Vec2(topPipe->getPositionX(), topPipePosition - (Sprite::create("flappyBird/bird0_1.png")->getContentSize().height) * 5
         - topPipe->getContentSize().height));
     addChild(topPipe);
     addChild(bottomPipe);
@@ -231,8 +243,8 @@ void GameScene::CreatePipe(float dt)
 
     auto pointNode = Node::create();
     pointNode->setPosition(Vec2(topPipe->getPositionX(), topPipe->getPositionY() - topPipe->getContentSize().height / 2 -
-        (Sprite::create("bird0_1.png")->getContentSize().height * 5) / 2));
-    auto nodePhysic = PhysicsBody::createBox(Size(1, Sprite::create("bird0_1.png")->getContentSize().height * 5));
+        (Sprite::create("flappyBird/bird0_1.png")->getContentSize().height * 5) / 2));
+    auto nodePhysic = PhysicsBody::createBox(Size(1, Sprite::create("flappyBird/bird0_1.png")->getContentSize().height * 5));
 
     nodePhysic->setCollisionBitmask(3);
     nodePhysic->setContactTestBitmask(true); 

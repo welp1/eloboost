@@ -34,6 +34,8 @@ public:
 
     virtual bool init();
 
+    void stopEffect(float dt);
+
     void CreatePipe(float);
     void update(float);
     bool OnTouchBegan(cocos2d::Touch* touch, cocos2d::Event* event);

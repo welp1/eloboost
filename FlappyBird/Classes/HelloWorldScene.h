@@ -33,6 +33,8 @@ public:
     static cocos2d::Scene* createScene();
 
     virtual bool init();
+    void stopEffect(float dt);
+
     // a selector callback
     void play(cocos2d::Ref* pSender);
     // implement the "static create()" method manually
