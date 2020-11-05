@@ -25,7 +25,7 @@
 #include "GameScene.h"
 #include "HelloWorldScene.h"
 #include "GameOver.h"
-#include "PikachuGameMenu.h"
+#include "GamePikachu/PikachuGameMenu.h"
 #include "AudioEngine.h"
 
 USING_NS_CC;
@@ -115,8 +115,8 @@ bool GameScene::init()
     addChild(label);
 
     this->scheduleUpdate();
-    auto funPointer = static_cast<cocos2d::SEL_SCHEDULE>(&GameScene::CreatePipe);
-    this->schedule(funPointer, 0.003 * visibleSize.width);
+    auto createPipe = static_cast<cocos2d::SEL_SCHEDULE>(&GameScene::CreatePipe);
+    this->schedule(createPipe, 0.003 * visibleSize.width);
     //this->schedule(schedule_selector(GameScene::CreatePipe), 0.005 * visibleSize.width);
 
     auto touchListener = EventListenerTouchOneByOne::create();
@@ -127,12 +127,32 @@ bool GameScene::init()
     contactListener->onContactBegin = CC_CALLBACK_1(GameScene::OnContactBegan, this);
     _eventDispatcher->addEventListenerWithSceneGraphPriority(contactListener, this);
 
+    /* Create a keyboard event listener  */
+    auto keyboardListener = EventListenerKeyboard::create();
+    keyboardListener->onKeyPressed = CC_CALLBACK_2(GameScene::onKeyBegin, this);
+    //keyboardListener->onKeyReleased = CC_CALLBACK_2(GameScene::onKeyBegin, this);
+    _eventDispatcher->addEventListenerWithSceneGraphPriority(keyboardListener, this);
+
     return true;
 }
 
-void GameScene::stopEffect(float dt)
+bool GameScene::onKeyBegin(EventKeyboard::KeyCode keyCode, cocos2d::Event* event)
 {
-    AudioEngine::end();
+    auto visibleSize = Director::getInstance()->getVisibleSize();
+    if (keyCode == EventKeyboard::KeyCode::KEY_UP_ARROW)
+    {
+        isFalling = false;
+        auto volumeDie = AudioEngine::play2d("sounds/Flappy_Bird/wing.mp3");
+        auto birdStopFly = static_cast<cocos2d::SEL_SCHEDULE>(&GameScene::stopFly);
+        this->schedule(birdStopFly, 0.2);
+        return true;
+    }
+    else
+    {
+        isFalling = true;
+    }
+
+    return true;
 }
 
 bool GameScene::OnContactBegan(cocos2d::PhysicsContact& contact)
@@ -154,12 +174,12 @@ bool GameScene::OnContactBegan(cocos2d::PhysicsContact& contact)
             a->getCollisionBitmask() == 2 && b->getCollisionBitmask() == 4)
         {
             auto volumeDie = AudioEngine::play2d("sounds/Flappy_Bird/hit.mp3");
-            auto sqe = GameOver::createScene();
+            auto sqe = GameOver::createScene(score);
             Director::getInstance()->replaceScene(sqe);
         }
     }
 
-    if (score == 1)
+    if (score == 3)
     {
         auto pikachuGameMenu = PikachuGameMenu::createScene();
         Director::getInstance()->replaceScene(

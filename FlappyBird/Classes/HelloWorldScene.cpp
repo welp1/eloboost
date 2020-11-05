@@ -25,6 +25,8 @@
 #include "HelloWorldScene.h"
 #include "GameScene.h"
 #include "AudioEngine.h"
+#include "utils/AudioManager.h"
+#include "ui/CocosGUI.h"
 
 USING_NS_CC;
 
@@ -55,15 +57,18 @@ bool HelloWorld::init()
 
     //auto volumeGameMenu = AudioEngine::play2d("sounds/Flappy_Bird/GameMenu.mp3", true);
 
+    /* Create title sprite */
+    auto titleSprite = Sprite::create("title.png");
+    titleSprite->setPosition(Point(visibleSize.width / 2 + origin.x, visibleSize.height / 2 + titleSprite->getContentSize().height));
+
+    this->addChild(titleSprite);
+
     // Add image "PLAY" with callback HelloWorld::play
     //auto play = MenuItemLabel::create(Label::createWithTTF("PLAY", "fonts/Marker Felt.ttf", 40),
         //CC_CALLBACK_1(HelloWorld::play, this));
 
-    auto play = MenuItemImage::create("flappyBird/play_1.png", "flappyBird/play_2.png", CC_CALLBACK_1(HelloWorld::play, this));
+    auto play = MenuItemImage::create("playButton.png", "playButtonClicked.png", CC_CALLBACK_1(HelloWorld::play, this));
     CCASSERT(play != nullptr, "Fail to load PLAY images");
-
-    // Assert that play is not null
-    //CCASSERT(play != nullptr, "problem loading fonts/Marker Felt.ttf");
 
     // Add PLAY to menu
     // create menu, it's an autorelease object
@@ -71,6 +76,27 @@ bool HelloWorld::init()
     menu->setPosition((Vec2(visibleSize) - origin) / 2);
     this->addChild(menu, 1);
 
+    /* Create Sound checkbox */
+    auto soundCheckBox = ui::CheckBox::create("SoundButton.png", "SoundButtonChecked.png");
+    soundCheckBox->setPosition(Point(visibleSize.width / 2 + origin.x, visibleSize.height / 2 + origin.y - play->getContentSize().height * 1.4));
+
+    soundCheckBox->setSelected(!AudioManager::getSoundState());
+
+    this->addChild(soundCheckBox);
+
+    soundCheckBox->addEventListener([](Ref* sender, ui::CheckBox::EventType type) {
+        switch (type)
+        {
+        case cocos2d::ui::CheckBox::EventType::SELECTED:
+            AudioManager::muteSounds();
+            break;
+        case cocos2d::ui::CheckBox::EventType::UNSELECTED:
+            AudioManager::unmuteSounds();
+            break;
+        default:
+            break;
+        }
+        });
     return true;
 }
 
@@ -80,7 +106,6 @@ void HelloWorld::stopEffect(float dt)
 }
 
 void HelloWorld::play(Ref* pSender) {
-    //stopEffect(AudioEngine::play2d("sounds/Flappy_Bird/GameMenu.mp3"));
     auto gameScene = GameScene::createScene();
     Director::getInstance()->replaceScene(
         TransitionFade::create(0.5, gameScene, Color3B(0, 255, 255)));

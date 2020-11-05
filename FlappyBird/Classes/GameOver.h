@@ -30,13 +30,15 @@
 class GameOver : public cocos2d::Scene
 {
 public:
-    static cocos2d::Scene* createScene();
+    static cocos2d::Scene* createScene(unsigned int score);
 
     virtual bool init();
+    cocos2d::Label* highScoreLabel;
 
     // a selector callback
     void menuCloseCallback(cocos2d::Ref* pSender);
-    void replay(cocos2d::Ref* pSender);
+    void retryGame();
+    void goToMainMenu();
     // implement the "static create()" method manually
     CREATE_FUNC(GameOver);
 

@@ -51,6 +51,9 @@ public:
 private:
     cocos2d::PhysicsWorld *world;
     cocos2d::Sprite* bird;
+
+    bool onKeyBegin(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event* event);
+
     bool isFalling = true;
     cocos2d::Label *label;
     int score = 0;

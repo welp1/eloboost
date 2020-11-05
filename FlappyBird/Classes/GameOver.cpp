@@ -24,10 +24,14 @@
 
 #include "GameOver.h"
 #include "GameScene.h"
+#include "Definitions.h"
+#include "HelloWorldScene.h"
 USING_NS_CC;
 
-Scene* GameOver::createScene()
+unsigned int finalScore;
+Scene* GameOver::createScene(unsigned int score)
 {
+    finalScore = score;
     // 'scene' is an autorelease object
     auto scene = Scene::create();
     // 'layer' is an autorelease object
@@ -58,11 +62,60 @@ bool GameOver::init()
     auto visibleSize = Director::getInstance()->getVisibleSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
-    auto label = Label::createWithTTF("You lose !", "fonts/Marker Felt.ttf", visibleSize.height * 0.1);
-    label->setPosition(Vec2(visibleSize.width / 2, visibleSize.height * 0.8));
-    label->setColor(Color3B::RED);
-    addChild(label);
+    /* Create 'Game Over' sprite */
+    auto gameOverSprite = Sprite::create("GameOver.png");
+    gameOverSprite->setPosition(Point(visibleSize.width / 2 + origin.x, visibleSize.height / 2 + origin.y + gameOverSprite->getContentSize().height * 1.4));
 
+    this->addChild(gameOverSprite);
+
+    UserDefault* userDef = UserDefault::getInstance();
+    auto highScore = userDef->getIntegerForKey("HIGH_SCORE", 0);
+
+    /* Create label with final score */
+    std::string finalScoreStr = cocos2d::StringUtils::format("FINAL SCORE: %i", finalScore);
+    //__String *finalScoreStr = __String::createWithFormat("Final score: %i", finalScore);
+    auto finalScoreLabel = Label::createWithTTF(finalScoreStr, "fonts/britanic bold.ttf", 55);
+    finalScoreLabel->setPosition(Point(visibleSize.width / 2 + origin.x, visibleSize.height / 2 + origin.y + finalScoreLabel->getContentSize().height));
+
+    this->addChild(finalScoreLabel);
+
+    /* Create label with high score */
+   //__String *highScoreStr;
+    std::string highScoreStr;
+    if (highScore < finalScore)
+    {
+        /* New score is the highest score so far */
+        highScore = finalScore;
+        userDef->setIntegerForKey("HIGH_SCORE", highScore);
+        highScoreStr = cocos2d::StringUtils::format("NEW HIGH SCORE: %i", highScore);
+        //highScoreStr = __String::createWithFormat("New high score: %i", highScore);
+    }
+    else
+    {
+        /* High score remains the same */
+        highScoreStr = cocos2d::StringUtils::format("HIGH SCORE: %i", highScore);
+        //highScoreStr = __String::createWithFormat("High score: %i", highScore);
+    }
+    highScoreLabel = Label::createWithTTF(highScoreStr, "fonts/britanic bold.ttf", 55);
+    highScoreLabel->setPosition(Point(visibleSize.width / 2 + origin.x, visibleSize.height / 2 + origin.y - finalScoreLabel->getContentSize().height));
+
+    this->addChild(highScoreLabel);
+
+    /* Create Retry menu item */
+    auto retryItem = MenuItemImage::create("RetryButton.png", "RetryButtonClicked.png", CC_CALLBACK_0(GameOver::retryGame, this));
+    retryItem->setPosition(Point(visibleSize.width / 2 + origin.x - retryItem->getContentSize().width * 0.65, visibleSize.height / 2 + origin.y - (finalScoreLabel->getContentSize().height + highScoreLabel->getContentSize().height) * 1.8));
+
+    /* Create Main Menu menu item */
+    auto mainMenuItem = MenuItemImage::create("MainMenuButton.png", "MainMenuButtonClicked.png", CC_CALLBACK_0(GameOver::goToMainMenu, this));
+    mainMenuItem->setPosition(Point(visibleSize.width / 2 + origin.x + mainMenuItem->getContentSize().width * 0.65, visibleSize.height / 2 + origin.y - (finalScoreLabel->getContentSize().height + highScoreLabel->getContentSize().height) * 1.8));
+
+    /* Create Menu */
+    auto menu = Menu::create(retryItem, mainMenuItem, nullptr);
+    menu->setPosition(Point::ZERO);
+
+    this->addChild(menu);
+
+    /*
     // Add image "REPLAY" with callback GameOver::play
     auto replay = MenuItemImage::create("flappyBird/replay_1.png", "flappyBird/replay_2.png", CC_CALLBACK_1(GameOver::replay, this));
     CCASSERT(replay != nullptr, "Fail to load REPLAY images");
@@ -71,14 +124,21 @@ bool GameOver::init()
     auto menu = Menu::create(replay, NULL);
     menu->setPosition((Vec2(visibleSize) - origin) / 2);
     this->addChild(menu, 1);
-
+    */
     return true;
 }
 
-void GameOver::replay(Ref* pSender) {
+void GameOver::retryGame() {
     auto gameScene = GameScene::createScene();
     Director::getInstance()->replaceScene(
         TransitionFade::create(0.5, gameScene, Color3B(0, 255, 255)));
+}
+
+void GameOver::goToMainMenu()
+{
+    auto scene = HelloWorld::createScene();
+
+    Director::getInstance()->replaceScene(TransitionFade::create(TRANSITION_TIME, scene, Color3B(40, 47, 60)));
 }
 
 void GameOver::menuCloseCallback(Ref* pSender)
