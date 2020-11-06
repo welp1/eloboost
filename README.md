@@ -8,6 +8,9 @@
 ## Ссылки:
 - [Концепт док](https://docs.google.com/document/d/1knzsO4lq7fIyrhKi6Dr16khufCv0ImcDgjriPugf6jY/edit)
 ##
+## Документация
+- [Cocos2d-x v3 Docs](https://docs.cocos2d-x.org/cocos2d-x/v3/en/)
+##
 ## Команды строки:
 ```
 python ./setup.py
