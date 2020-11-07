@@ -7,6 +7,7 @@
 ##
 ## Ссылки:
 - [Концепт док](https://docs.google.com/document/d/1knzsO4lq7fIyrhKi6Dr16khufCv0ImcDgjriPugf6jY/edit)
+- [Персонаж](https://designer.gravit.io/?token=DgbZ2m8j3gV8gGrIekCdnktsuBa0ncXw)
 ##
 ## Документация
 - [Cocos2d-x v3 Docs](https://docs.cocos2d-x.org/cocos2d-x/v3/en/)
