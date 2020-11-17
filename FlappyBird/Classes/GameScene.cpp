@@ -68,6 +68,7 @@ bool GameScene::init()
     //stopEffect(AudioEngine::play2d("sounds/Flappy_Bird/GameMenu.mp3"));
 
     // add "background" splash screen"
+
     auto sprite = Sprite::create("flappyBird/background_ykt.png");
     if (sprite == nullptr)
     {
@@ -80,16 +81,28 @@ bool GameScene::init()
 
         // add the sprite as a child to this layer
         this->addChild(sprite, 0);
+        auto actionMoveTo = MoveTo::create(3.5, Vec2(-visibleSize.width / 2 - origin.x, visibleSize.height / 2 + origin.y));
+        sprite->runAction(actionMoveTo);
     }
 
-    /*auto back = MenuItemImage::create("back_1.png", "back_2.png", CC_CALLBACK_1(GameScene::back, this));
-    CCASSERT(back != nullptr, "Fail to load BACK images");
+    for (int i = 1; i <= 10; i++)
+    {
+        auto sprite1 = Sprite::create("flappyBird/background_ykt.png");
+        if (sprite1 == nullptr)
+        {
+            problemLoading("'flappyBird/background_ykt.png'");
+        }
+        else
+        {
+            // position the sprite on the center of the screen
+            sprite1->setPosition(Vec2(visibleSize.width / 2 + visibleSize.width * 0.99 * i + origin.x, visibleSize.height / 2 + origin.y));
 
-    auto menu = Menu::create(back, nullptr);
-    this->addChild(menu);
-    menu->setPosition(origin);
-    back->setPosition(origin + Vec2(back->getContentSize().width / 2,
-        visibleSize.height - back->getContentSize().height / 2));*/
+            // add the sprite as a child to this layer
+            this->addChild(sprite1, 0);
+            auto actionMoveTo = MoveTo::create(3.5 * (i + 1), Vec2(-visibleSize.width / 2 - origin.x, visibleSize.height / 2 + origin.y));
+            sprite1->runAction(actionMoveTo);
+        }
+    }
 
     auto edgeBody = PhysicsBody::createEdgeBox(visibleSize, PHYSICSBODY_MATERIAL_DEFAULT, 5);
     edgeBody->setCollisionBitmask(2);
@@ -160,8 +173,8 @@ bool GameScene::OnContactBegan(cocos2d::PhysicsContact& contact)
     PhysicsBody* a = contact.getShapeA()->getBody();
     PhysicsBody* b = contact.getShapeB()->getBody();
 
-    if (a->getCollisionBitmask() == 4 && b->getCollisionBitmask() == 3 || 
-        a->getCollisionBitmask() == 3 && b-> getCollisionBitmask() == 4)
+    if (a->getCollisionBitmask() == 4 && b->getCollisionBitmask() == 3 ||
+        a->getCollisionBitmask() == 3 && b->getCollisionBitmask() == 4)
     {
         auto volumePoint = AudioEngine::play2d("sounds/Flappy_Bird/point.mp3");
         score++;
@@ -267,7 +280,7 @@ void GameScene::CreatePipe(float dt)
     auto nodePhysic = PhysicsBody::createBox(Size(1, Sprite::create("flappyBird/bird0_1.png")->getContentSize().height * 5));
 
     nodePhysic->setCollisionBitmask(3);
-    nodePhysic->setContactTestBitmask(true); 
+    nodePhysic->setContactTestBitmask(true);
     nodePhysic->setDynamic(false);
     pointNode->setPhysicsBody(nodePhysic);
 
@@ -276,10 +289,3 @@ void GameScene::CreatePipe(float dt)
     addChild(pointNode);
 }
 
-/*
-void GameScene::back(Ref* pSender) {
-    auto homeScene = HelloWorld::createScene();
-    Director::getInstance()->replaceScene(
-        TransitionFade::create(0.5, homeScene, Color3B(0, 255, 255)));
-}
-*/
