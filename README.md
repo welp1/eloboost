@@ -20,7 +20,8 @@ python ./setup.py
 cocos new FlappyBird -l cpp -p com.eloboost.flappybird
 ```
 ```
-cmake .. -G "Visual Studio 16 2019" -AWin32
+cmake .. -G "Visual Studio 16 2019" -AWin32 or
+cmake .. -G "Visual Studio 15 2017" -AWin32
 ```
 ##
 # <p align="center">New Game Panelka2d!&</p>
