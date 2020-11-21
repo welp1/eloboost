@@ -81,7 +81,7 @@ bool GameScene::init()
 
         // add the sprite as a child to this layer
         this->addChild(sprite, 0);
-        auto actionMoveTo = MoveTo::create(3.5, Vec2(-visibleSize.width / 2 - origin.x, visibleSize.height / 2 + origin.y));
+        auto actionMoveTo = MoveTo::create(3.3, Vec2(-visibleSize.width / 2 - origin.x, visibleSize.height / 2 + origin.y));
         sprite->runAction(actionMoveTo);
     }
 
@@ -99,7 +99,7 @@ bool GameScene::init()
 
             // add the sprite as a child to this layer
             this->addChild(sprite1, 0);
-            auto actionMoveTo = MoveTo::create(3.5 * (i + 1), Vec2(-visibleSize.width / 2 - origin.x, visibleSize.height / 2 + origin.y));
+            auto actionMoveTo = MoveTo::create(3.3 * (i + 1), Vec2(-visibleSize.width / 2 - origin.x, visibleSize.height / 2 + origin.y));
             sprite1->runAction(actionMoveTo);
         }
     }
