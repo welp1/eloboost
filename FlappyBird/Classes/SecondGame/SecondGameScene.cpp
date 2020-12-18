@@ -1,14 +1,14 @@
-#include "HelloWorldScene.h"
+#include "SecondGameScene.h"
 #include "AudioEngine.h"
 #include "ui/CocosGUI.h"
 
 USING_NS_CC;
 
-Scene* HelloWorld::createScene()
+Scene* SecondGameScene::createScene()
 {
 	auto scene = Scene::createWithPhysics();	
 	scene->getPhysicsWorld()->setGravity(Vect(0,0));
-    auto layer = HelloWorld::create();
+    auto layer = SecondGameScene::create();
 	#if COCOS2D_DEBUG
 	scene->getPhysicsWorld()->setDebugDrawMask(PhysicsWorld::DEBUGDRAW_ALL);
 	#endif
@@ -17,7 +17,7 @@ Scene* HelloWorld::createScene()
 }
 
 
-void HelloWorld::setPhysicsBody(cocos2d::Sprite* sprite)
+void SecondGameScene::setPhysicsBody(cocos2d::Sprite* sprite)
 {
 	auto body = PhysicsBody::createCircle(sprite->getContentSize().width / 1.8);
 	body->setContactTestBitmask(true);
@@ -25,7 +25,7 @@ void HelloWorld::setPhysicsBody(cocos2d::Sprite* sprite)
 	sprite->setPhysicsBody(body);
 }
 
-void HelloWorld::setPhysicsBodyBrick(cocos2d::Sprite* sprite)
+void SecondGameScene::setPhysicsBodyBrick(cocos2d::Sprite* sprite)
 {
 	auto body = PhysicsBody::createBox(sprite->getContentSize() / 2);
 	body->setContactTestBitmask(true);
@@ -33,7 +33,7 @@ void HelloWorld::setPhysicsBodyBrick(cocos2d::Sprite* sprite)
 	sprite->setPhysicsBody(body);
 }
 
-bool HelloWorld::explodeBombs(cocos2d::Touch* touch, cocos2d::Event* event)
+bool SecondGameScene::explodeBombs(cocos2d::Touch* touch, cocos2d::Event* event)
 {
 	Vec2 touchLocation = touch->getLocation();
 	cocos2d::Vector<cocos2d::Sprite*> toErase;
@@ -60,30 +60,30 @@ bool HelloWorld::explodeBombs(cocos2d::Touch* touch, cocos2d::Event* event)
 	return true;
 }
 
-void HelloWorld::initTouch()
+void SecondGameScene::initTouch()
 {
 	auto listener = EventListenerTouchOneByOne::create();
-	listener->onTouchBegan = CC_CALLBACK_2(HelloWorld::explodeBombs, this);
-	listener->onTouchMoved = CC_CALLBACK_2(HelloWorld::movePlayerByTouch, this);
+	listener->onTouchBegan = CC_CALLBACK_2(SecondGameScene::explodeBombs, this);
+	listener->onTouchMoved = CC_CALLBACK_2(SecondGameScene::movePlayerByTouch, this);
 	listener->onTouchEnded = [=](Touch* touch, Event* event) {};
 	_eventDispatcher->addEventListenerWithSceneGraphPriority(listener, this);
 }
 
-void HelloWorld::movePlayerByTouch(Touch* touch, Event* event) {
+void SecondGameScene::movePlayerByTouch(Touch* touch, Event* event) {
 	Vec2 touchLocation = touch->getLocation();
 	if (_sprPlayer->getBoundingBox().containsPoint(touchLocation)) {
 		movePlayerIfPossible(touchLocation.x);
 	}
 }
 
-void HelloWorld::movePlayerIfPossible(float newX) {
+void SecondGameScene::movePlayerIfPossible(float newX) {
 	float sprHalfWidth = _sprPlayer->getBoundingBox().size.width / 2;
 	if (newX >= sprHalfWidth && newX < _visibleSize.width - sprHalfWidth) {
 		_sprPlayer->setPositionX(newX);
 	}
 }
 
-bool HelloWorld::init()
+bool SecondGameScene::init()
 {
     if ( !Scene::init() )
     {
@@ -126,14 +126,14 @@ bool HelloWorld::init()
 	initTouch();
 
 	//initBackButtonListener();
-	schedule(CC_SCHEDULE_SELECTOR(HelloWorld::updateScore), 3.0f);
-	schedule(CC_SCHEDULE_SELECTOR(HelloWorld::addBombs), 7.0f);
+	schedule(CC_SCHEDULE_SELECTOR(SecondGameScene::updateScore), 3.0f);
+	schedule(CC_SCHEDULE_SELECTOR(SecondGameScene::addBombs), 7.0f);
 	_bombs.pushBack(_sprBomb);
 
     return true;
 }
 
-void HelloWorld::addBombs(float dt)
+void SecondGameScene::addBombs(float dt)
 {
 	Sprite* bomb = nullptr;
 	for (int i = 0; i < 3; i++)
@@ -147,23 +147,23 @@ void HelloWorld::addBombs(float dt)
 	}
 }
 
-void HelloWorld::updateScore(float dt)
+void SecondGameScene::updateScore(float dt)
 {
 	_score += 10;
 	if (_score > 50) {
-		_director->replaceScene(TransitionFlipX::create(1.0, HelloWorld::createScene()));
+		_director->replaceScene(TransitionFlipX::create(1.0, SecondGameScene::createScene()));
 	}
 }
 
-void HelloWorld::initPhysics()
+void SecondGameScene::initPhysics()
 {
 	auto contactListener = EventListenerPhysicsContact::create();
-	contactListener->onContactBegin = CC_CALLBACK_1(HelloWorld::onCollision, this);
+	contactListener->onContactBegin = CC_CALLBACK_1(SecondGameScene::onCollision, this);
 	getEventDispatcher()->addEventListenerWithSceneGraphPriority(contactListener, this);
 
 }
 
-bool HelloWorld::onCollision(PhysicsContact& contact)
+bool SecondGameScene::onCollision(PhysicsContact& contact)
 {
 	CCLOG("Collision detected");
 	auto playerShape = _sprPlayer->getPhysicsBody()->getFirstShape();
@@ -172,7 +172,7 @@ bool HelloWorld::onCollision(PhysicsContact& contact)
 		return false;
 	}
 	AudioEngine::play2d("SecondGame/death.mp3");
-	_director->replaceScene(TransitionFlipX::create(1.0, HelloWorld::createScene()));
+	_director->replaceScene(TransitionFlipX::create(1.0, SecondGameScene::createScene()));
 
 	/*if (_muteItem->isVisible())
 	{

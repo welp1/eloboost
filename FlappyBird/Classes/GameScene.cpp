@@ -26,6 +26,7 @@
 #include "HelloWorldScene.h"
 #include "GameOver.h"
 #include "GamePikachu/PikachuGameMenu.h"
+#include "SecondGame/SecondGameScene.h"
 #include "AudioEngine.h"
 
 USING_NS_CC;
@@ -69,10 +70,10 @@ bool GameScene::init()
 
     // add "background" splash screen"
 
-    auto sprite = Sprite::create("flappyBird/background_ykt.png");
+    auto sprite = Sprite::create("flappyBird/background.png");
     if (sprite == nullptr)
     {
-        problemLoading("'flappyBird/background_ykt.png'");
+        problemLoading("'flappyBird/background.png'");
     }
     else
     {
@@ -87,10 +88,10 @@ bool GameScene::init()
 
     for (int i = 1; i <= 10; i++)
     {
-        auto sprite1 = Sprite::create("flappyBird/background_ykt.png");
+        auto sprite1 = Sprite::create("flappyBird/background.png");
         if (sprite1 == nullptr)
         {
-            problemLoading("'flappyBird/background_ykt.png'");
+            problemLoading("'flappyBird/background.png'");
         }
         else
         {
@@ -104,6 +105,7 @@ bool GameScene::init()
         }
     }
 
+
     auto edgeBody = PhysicsBody::createEdgeBox(visibleSize, PHYSICSBODY_MATERIAL_DEFAULT, 5);
     edgeBody->setCollisionBitmask(2);
     edgeBody->setContactTestBitmask(true);
@@ -111,6 +113,7 @@ bool GameScene::init()
     edgeNode->setPosition(Vec2(visibleSize.width / 2, visibleSize.height / 2));
     edgeNode->setPhysicsBody(edgeBody);
     addChild(edgeNode);
+
 
     bird = Sprite::create("flappyBird/bird1_1.png");
     bird->setPosition(Vec2(visibleSize.width / 5, visibleSize.height / 2));
@@ -121,7 +124,7 @@ bool GameScene::init()
     addChild(bird);
 
     std::string tempScore = cocos2d::StringUtils::format("%i", score);
-    //__String* tempScore = __String::createWithFormat("%i", score);
+
     label = Label::createWithTTF(tempScore, "fonts/Marker Felt.ttf", visibleSize.height * 0.1);
     label->setPosition(Vec2(visibleSize.width / 2, visibleSize.height * 0.8));
     label->setColor(Color3B::WHITE);
@@ -130,7 +133,6 @@ bool GameScene::init()
     this->scheduleUpdate();
     auto createPipe = static_cast<cocos2d::SEL_SCHEDULE>(&GameScene::CreatePipe);
     this->schedule(createPipe, 0.003 * visibleSize.width);
-    //this->schedule(schedule_selector(GameScene::CreatePipe), 0.005 * visibleSize.width);
 
     auto touchListener = EventListenerTouchOneByOne::create();
     touchListener->onTouchBegan = CC_CALLBACK_2(GameScene::OnTouchBegan, this);
@@ -140,10 +142,9 @@ bool GameScene::init()
     contactListener->onContactBegin = CC_CALLBACK_1(GameScene::OnContactBegan, this);
     _eventDispatcher->addEventListenerWithSceneGraphPriority(contactListener, this);
 
-    /* Create a keyboard event listener  */
+    //Create a keyboard event listener
     auto keyboardListener = EventListenerKeyboard::create();
     keyboardListener->onKeyPressed = CC_CALLBACK_2(GameScene::onKeyBegin, this);
-    //keyboardListener->onKeyReleased = CC_CALLBACK_2(GameScene::onKeyBegin, this);
     _eventDispatcher->addEventListenerWithSceneGraphPriority(keyboardListener, this);
 
     return true;
@@ -194,7 +195,11 @@ bool GameScene::OnContactBegan(cocos2d::PhysicsContact& contact)
 
     if (score == 3)
     {
-        auto pikachuGameMenu = PikachuGameMenu::createScene();
+        /*auto pikachuGameMenu = PikachuGameMenu::createScene();
+        Director::getInstance()->replaceScene(
+            TransitionFade::create(0.5, pikachuGameMenu, Color3B(0, 255, 255)));*/
+
+        auto pikachuGameMenu = SecondGameScene::createScene();
         Director::getInstance()->replaceScene(
             TransitionFade::create(0.5, pikachuGameMenu, Color3B(0, 255, 255)));
     }
