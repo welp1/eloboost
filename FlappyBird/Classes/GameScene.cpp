@@ -37,7 +37,6 @@ Scene* GameScene::createScene()
 {
     // 'scene' is an autorelease object
     auto scene = Scene::createWithPhysics();
-    scene->getPhysicsWorld()->setDebugDrawMask(PhysicsWorld::DEBUGDRAW_ALL);
     scene->getPhysicsWorld()->setGravity(Vec2(0, 0));
     // 'layer' is an autorelease object
     auto layer = GameScene::create();
@@ -72,40 +71,50 @@ bool GameScene::init()
 
     // add "background" splash screen"
 
-    auto sprite = Sprite::create("flappyBird/background.png");
-    if (sprite == nullptr)
-    {
-        problemLoading("'flappyBird/background.png'");
-    }
-    else
-    {
-        // position the sprite on the center of the screen
-        sprite->setPosition(Vec2(visibleSize.width / 2 + origin.x, visibleSize.height / 2 + origin.y));
+	auto spriteDown = Sprite::create("flappyBird/paralax/down1.png");
+	auto spriteUp = Sprite::create("flappyBird/paralax/up1.png");
+	if (spriteDown == nullptr)
+	{
+		problemLoading("'flappyBird/paralax/down1.png");
+	}
+	else
+	{
+		spriteUp->setPosition(Vec2(visibleSize.width / 2 + origin.x, visibleSize.height / 2 + origin.y));
+		// position the sprite on the center of the screen
+		spriteDown->setPosition(Vec2(visibleSize.width / 2 + origin.x, visibleSize.height / 2 + origin.y));
 
-        // add the sprite as a child to this layer
-        this->addChild(sprite, 0);
-        auto actionMoveTo = MoveTo::create(3.3, Vec2(-visibleSize.width / 2 - origin.x, visibleSize.height / 2 + origin.y));
-        sprite->runAction(actionMoveTo);
-    }
+		this->addChild(spriteUp, 0);
+		auto actionMoveTo1 = MoveTo::create(10, Vec2(-visibleSize.width / 2 - origin.x, visibleSize.height / 2 + origin.y));
+		spriteUp->runAction(actionMoveTo1);
+		// add the sprite as a child to this layer
+		this->addChild(spriteDown, 0);
+		auto actionMoveTo = MoveTo::create(3.5, Vec2(-visibleSize.width / 2 - origin.x, visibleSize.height / 2 + origin.y));
+		spriteDown->runAction(actionMoveTo);
+	}
 
-    for (int i = 1; i <= 10; i++)
-    {
-        auto sprite1 = Sprite::create("flappyBird/background.png");
-        if (sprite1 == nullptr)
-        {
-            problemLoading("'flappyBird/background.png'");
-        }
-        else
-        {
-            // position the sprite on the center of the screen
-            sprite1->setPosition(Vec2(visibleSize.width / 2 + visibleSize.width * 0.99 * i + origin.x, visibleSize.height / 2 + origin.y));
+	for (int i = 1; i <= 10; i++)
+	{
+		auto spriteUp1 = Sprite::create("flappyBird/paralax/up1.png");
+		auto spriteDown1 = Sprite::create("flappyBird/paralax/down1.png");
+		if (spriteDown1 == nullptr)
+		{
+			problemLoading("'flappyBird/paralax/down1.png");
+		}
+		else
+		{
+			spriteUp1->setPosition(Vec2(visibleSize.width / 2 + visibleSize.width * 0.98 * i + origin.x, visibleSize.height / 2 + origin.y));
+			// position the sprite on the center of the screen
+			spriteDown1->setPosition(Vec2(visibleSize.width / 2 + visibleSize.width * 0.98 * i + origin.x, visibleSize.height / 2 + origin.y));
 
-            // add the sprite as a child to this layer
-            this->addChild(sprite1, 0);
-            auto actionMoveTo = MoveTo::create(3.3 * (i + 1), Vec2(-visibleSize.width / 2 - origin.x, visibleSize.height / 2 + origin.y));
-            sprite1->runAction(actionMoveTo);
-        }
-    }
+			this->addChild(spriteUp1, 0);
+			auto actionMoveTo1 = MoveTo::create(10 * (i + 1), Vec2(-visibleSize.width / 2 - origin.x, visibleSize.height / 2 + origin.y));
+			spriteUp1->runAction(actionMoveTo1);
+			// add the sprite as a child to this layer
+			this->addChild(spriteDown1, 0);
+			auto actionMoveTo = MoveTo::create(3.5 * (i + 1), Vec2(-visibleSize.width / 2 - origin.x, visibleSize.height / 2 + origin.y));
+			spriteDown1->runAction(actionMoveTo);
+		}
+	}
 
 
     auto edgeBody = PhysicsBody::createEdgeBox(visibleSize, PHYSICSBODY_MATERIAL_DEFAULT, 5);
@@ -117,13 +126,22 @@ bool GameScene::init()
     addChild(edgeNode);
 
 
-    bird = Sprite::create("flappyBird/bird1_1.png");
-    bird->setPosition(Vec2(visibleSize.width / 5, visibleSize.height / 2));
-    auto birdPhysic = PhysicsBody::createBox(bird->getContentSize());
-    birdPhysic->setCollisionBitmask(4);
-    birdPhysic->setContactTestBitmask(true);
-    bird->setPhysicsBody(birdPhysic);
-    addChild(bird);
+	bird = Sprite::create("flappyBird/2.png");
+	bird->setPosition(Vec2(visibleSize.width / 5, visibleSize.height / 2));
+	bird->setScale(0.5);
+	auto birdPhysic = PhysicsBody::createBox(bird->getContentSize());
+	birdPhysic->setCollisionBitmask(4);
+	birdPhysic->setContactTestBitmask(true);
+	bird->setPhysicsBody(birdPhysic);
+	addChild(bird, 2);
+
+	Vector<SpriteFrame*> frames;
+	Size playerSize = bird->getContentSize();
+	frames.pushBack(SpriteFrame::create("flappyBird/2.png", Rect(0, 0, playerSize.width, playerSize.height)));
+	frames.pushBack(SpriteFrame::create("flappyBird/1.png", Rect(0, 0, playerSize.width, playerSize.height)));
+	auto animation = Animation::createWithSpriteFrames(frames, 0.6f);
+	auto animate = Animate::create(animation);
+	bird->runAction(RepeatForever::create(animate));
 
     std::string tempScore = cocos2d::StringUtils::format("%i", score);
 
@@ -195,7 +213,7 @@ bool GameScene::OnContactBegan(cocos2d::PhysicsContact& contact)
         }
     }
 
-    if (score == 1)
+    if (score == 4)
     {
         /*auto pikachuGameMenu = PikachuGameMenu::createScene();
         Director::getInstance()->replaceScene(
