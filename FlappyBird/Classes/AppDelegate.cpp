@@ -25,6 +25,7 @@
 #include "AppDelegate.h"
 #include "HelloWorldScene.h"
 #include "SplashScene.h"
+#include "JumpGame/Jump_LoadingScene.h"
 #include "utils/AudioManager.h"
 
 // #define USE_AUDIO_ENGINE 1
@@ -118,6 +119,7 @@ bool AppDelegate::applicationDidFinishLaunching() {
 
     // create a scene. it's an autorelease object
     auto scene = Splash::createScene();
+    //auto scene = Jump_LoadingScene::createScene();
 
     // run
     director->runWithScene(scene);

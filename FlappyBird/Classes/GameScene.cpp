@@ -27,6 +27,8 @@
 #include "GameOver.h"
 #include "GamePikachu/PikachuGameMenu.h"
 #include "SecondGame/SecondGameScene.h"
+#include "JumpGame/Jump_MainMenu.h"
+#include "JumpGame/Jump_LoadingScene.h"
 #include "AudioEngine.h"
 
 USING_NS_CC;
@@ -193,15 +195,14 @@ bool GameScene::OnContactBegan(cocos2d::PhysicsContact& contact)
         }
     }
 
-    if (score == 3)
+    if (score == 1)
     {
         /*auto pikachuGameMenu = PikachuGameMenu::createScene();
         Director::getInstance()->replaceScene(
             TransitionFade::create(0.5, pikachuGameMenu, Color3B(0, 255, 255)));*/
 
-        auto pikachuGameMenu = SecondGameScene::createScene();
-        Director::getInstance()->replaceScene(
-            TransitionFade::create(0.5, pikachuGameMenu, Color3B(0, 255, 255)));
+        auto jumpGameMenu = Jump_LoadingScene::createScene();
+        Director::getInstance()->replaceScene(jumpGameMenu);
     }
     return true;
 }
