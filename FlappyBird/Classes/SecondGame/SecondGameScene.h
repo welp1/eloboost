@@ -21,7 +21,8 @@ private:
 	cocos2d::Sprite* _sprBomb;
 	cocos2d::Sprite* _sprPlayer;
 	cocos2d::Sprite* _sprPlayerLeft;
-	int _score;
+	cocos2d::Label* label;
+	int _score = 0;
 	void setPhysicsBody(cocos2d::Sprite* sprite);
 	void setPhysicsBodyBrick(cocos2d::Sprite* sprite);
 	cocos2d::Vector<cocos2d::Sprite*> _bombs;

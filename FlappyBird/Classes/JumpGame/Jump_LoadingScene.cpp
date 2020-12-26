@@ -41,6 +41,6 @@ void Jump_LoadingScene::loadingCallBack(Texture2D* texture)
 	AnimationCache::getInstance()->addAnimation(personAnimation, "personAnimation");
 
 	auto mainMenu = Jump_MainMenu::createScene();
-	TransitionScene* transition = TransitionFade::create(1.0f, mainMenu);
+	TransitionScene* transition = TransitionFade::create(0.5f, mainMenu);
 	Director::getInstance()->replaceScene(transition);
 }

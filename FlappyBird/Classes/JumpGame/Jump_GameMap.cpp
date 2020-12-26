@@ -18,7 +18,7 @@ bool Jump_GameMap::init()
 		if(i!=3&&i!=4&&i!=7&&i!=8)
 		{
 			auto block=Sprite::create(grass_file);
-			block->setPosition(BLOCK_SIZE/2+i*BLOCK_SIZE,BLOCK_SIZE/2+0.5*BLOCK_SIZE);
+			block->setPosition(BLOCK_SIZE * 1.5+i*BLOCK_SIZE,BLOCK_SIZE/2+0.5*BLOCK_SIZE);
 			this->addChild(block);
 			block->setTag(LAND);
 			auto blockBody=PhysicsBody::createBox(block->getContentSize());
@@ -45,7 +45,7 @@ bool Jump_GameMap::init()
 		if(i==3)
 		{
 			auto block=Sprite::create(grass_file);
-			block->setPosition(BLOCK_SIZE/2+i*BLOCK_SIZE,BLOCK_SIZE/2+0.5*BLOCK_SIZE);
+			block->setPosition(BLOCK_SIZE * 1.5 +i*BLOCK_SIZE,BLOCK_SIZE/2+0.5*BLOCK_SIZE);
 			this->addChild(block);
 			block->setTag(LAND);
 			auto blockBody=PhysicsBody::createBox(block->getContentSize());
@@ -87,7 +87,7 @@ bool Jump_GameMap::init()
 		if(i==3||i==4)
 		{
 			auto block=Sprite::create(grass_file);
-			block->setPosition(BLOCK_SIZE/2+i*BLOCK_SIZE,BLOCK_SIZE/2+3.5*BLOCK_SIZE);
+			block->setPosition(BLOCK_SIZE * 1.5 +i*BLOCK_SIZE,BLOCK_SIZE/2+3.5*BLOCK_SIZE);
 			this->addChild(block);
 			block->setTag(LAND);
 			auto blockBody=PhysicsBody::createBox(block->getContentSize());
@@ -126,7 +126,7 @@ bool Jump_GameMap::init()
 		{
 			auto gold1 = Sprite::create(gold_file);
 			gold1->setTag(GOLD);
-			gold1->setPosition(PICKUP_SIZE / 2 + i * BLOCK_SIZE, BLOCK_SIZE / 2 + 5 * BLOCK_SIZE);
+			gold1->setPosition(PICKUP_SIZE + i * BLOCK_SIZE, BLOCK_SIZE / 2 + 5 * BLOCK_SIZE);
 			auto goldBody1 = PhysicsBody::createBox(gold1->getContentSize());
 			goldBody1->setDynamic(false);
 			goldBody1->setContactTestBitmask(1);
@@ -138,7 +138,7 @@ bool Jump_GameMap::init()
 		{
 			auto gold2 = Sprite::create(gold_file);
 			gold2->setTag(GOLD);
-			gold2->setPosition(PICKUP_SIZE / 2 + i * BLOCK_SIZE, BLOCK_SIZE / 2 + 8.5 * BLOCK_SIZE);
+			gold2->setPosition(PICKUP_SIZE + i * BLOCK_SIZE, BLOCK_SIZE / 2 + 8.5 * BLOCK_SIZE);
 			auto goldBody2 = PhysicsBody::createBox(gold2->getContentSize());
 			goldBody2->setDynamic(false);
 			goldBody2->setContactTestBitmask(1);
@@ -152,7 +152,7 @@ bool Jump_GameMap::init()
 		if (i == 5 || i == 7)
 		{
 			auto block = Sprite::create(grass_file);
-			block->setPosition(BLOCK_SIZE / 2 + i * BLOCK_SIZE, BLOCK_SIZE / 2 + 5.5 * BLOCK_SIZE);
+			block->setPosition(BLOCK_SIZE * 1.5 + i * BLOCK_SIZE, BLOCK_SIZE / 2 + 5.5 * BLOCK_SIZE);
 			this->addChild(block);
 			block->setTag(LAND);
 			auto blockBody = PhysicsBody::createBox(block->getContentSize());
@@ -168,7 +168,71 @@ bool Jump_GameMap::init()
 		if (i == 2 || i == 4 || i == 8)
 		{
 			auto block = Sprite::create(grass_file);
-			block->setPosition(BLOCK_SIZE / 2 + i * BLOCK_SIZE, BLOCK_SIZE / 2 + 7.5 * BLOCK_SIZE);
+			block->setPosition(BLOCK_SIZE * 1.5 + i * BLOCK_SIZE, BLOCK_SIZE / 2 + 7.5 * BLOCK_SIZE);
+			this->addChild(block);
+			block->setTag(LAND);
+			auto blockBody = PhysicsBody::createBox(block->getContentSize());
+			blockBody->setDynamic(false);
+			blockBody->setContactTestBitmask(1);
+			blockBody->getShape(0)->setRestitution(0);
+			block->setPhysicsBody(blockBody);
+		}
+	}
+
+	for (int i = 0; i < 12; i++)
+	{
+		if (i == 10 || i == 11)
+		{
+			auto block = Sprite::create(grass_file);
+			block->setPosition(BLOCK_SIZE * 3 + i * BLOCK_SIZE, BLOCK_SIZE / 2 + 0.5 * BLOCK_SIZE);
+			this->addChild(block);
+			block->setTag(LAND);
+			auto blockBody = PhysicsBody::createBox(block->getContentSize());
+			blockBody->setDynamic(false);
+			blockBody->setContactTestBitmask(1);
+			blockBody->getShape(0)->setRestitution(0);
+			block->setPhysicsBody(blockBody);
+		}
+	}
+
+	for (int i = 0; i < 12; i++)
+	{
+		if (i == 10 || i == 11)
+		{
+			auto block = Sprite::create(grass_file);
+			block->setPosition(BLOCK_SIZE * 3 + i * BLOCK_SIZE, BLOCK_SIZE / 2 + 3.5 * BLOCK_SIZE);
+			this->addChild(block);
+			block->setTag(LAND);
+			auto blockBody = PhysicsBody::createBox(block->getContentSize());
+			blockBody->setDynamic(false);
+			blockBody->setContactTestBitmask(1);
+			blockBody->getShape(0)->setRestitution(0);
+			block->setPhysicsBody(blockBody);
+		}
+	}
+
+	for (int i = 0; i < 12; i++)
+	{
+		if (i == 10 || i == 11)
+		{
+			auto block = Sprite::create(grass_file);
+			block->setPosition(BLOCK_SIZE * 3 + i * BLOCK_SIZE, BLOCK_SIZE / 2 + 5.5 * BLOCK_SIZE);
+			this->addChild(block);
+			block->setTag(LAND);
+			auto blockBody = PhysicsBody::createBox(block->getContentSize());
+			blockBody->setDynamic(false);
+			blockBody->setContactTestBitmask(1);
+			blockBody->getShape(0)->setRestitution(0);
+			block->setPhysicsBody(blockBody);
+		}
+	}
+
+	for (int i = 0; i < 12; i++)
+	{
+		if (i == 10 || i == 11)
+		{
+			auto block = Sprite::create(grass_file);
+			block->setPosition(BLOCK_SIZE * 3 + i * BLOCK_SIZE, BLOCK_SIZE / 2 + 7.5 * BLOCK_SIZE);
 			this->addChild(block);
 			block->setTag(LAND);
 			auto blockBody = PhysicsBody::createBox(block->getContentSize());

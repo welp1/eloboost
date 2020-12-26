@@ -3,6 +3,7 @@
 #include "Jump_MainMenu.h"
 #include "Jump_GameScene.h"
 #include "Jump_GameMap.h"
+#include "GamePikachu/PikachuGameMenu.h"
 
 
 int jumpTimes=0;
@@ -49,8 +50,8 @@ bool Jump_GameScene::init()
 	auto slideBtnTexture2=Sprite::create("slide_button_press.png")->getTexture();
 	slideBtnTextures.pushBack(slideBtnTexture1);
 	slideBtnTextures.pushBack(slideBtnTexture2);
-	slideBtn->setScale(0.5);
-	slideBtn->setPosition(Point(visibleOrigin.x+100,visibleOrigin.y+50));
+	slideBtn->setScale(0.4);
+	slideBtn->setPosition(Point(visibleOrigin.x+500,visibleOrigin.y+40));
 	this->addChild(slideBtn,2);
 
 	jumpBtn=Sprite::create("jump_button.png");
@@ -58,14 +59,14 @@ bool Jump_GameScene::init()
 	auto jumpBtnTexture2=Sprite::create("jump_button_press.png")->getTexture();
 	jumpBtnTextures.pushBack(jumpBtnTexture1);
 	jumpBtnTextures.pushBack(jumpBtnTexture2);
-	jumpBtn->setScale(0.5);
-	jumpBtn->setPosition(Point(visibleOrigin.x+visibleSize.width-100,visibleOrigin.y+50));
+	jumpBtn->setScale(0.4);
+	jumpBtn->setPosition(Point(visibleOrigin.x+visibleSize.width-500,visibleOrigin.y+40));
 	this->addChild(jumpBtn,2);
 
 	std::string tempScore = cocos2d::StringUtils::format("%i", score);
 	label = Label::createWithTTF(tempScore, "fonts/Marker Felt.ttf", visibleSize.height * 0.1);
 
-	label->setPosition(visibleOrigin.x+visibleSize.width-150,visibleOrigin.y+visibleSize.height-20);
+	label->setPosition(visibleOrigin.x+visibleSize.width-200,visibleOrigin.y+visibleSize.height-40);
 	addChild(label);
 
 
@@ -176,6 +177,13 @@ void Jump_GameScene::addScore(float number)
 	score+=number;
 	std::string tempScore = cocos2d::StringUtils::format("%i", score);
 	label->setString(tempScore);
+
+	if (score > 2000)
+	{
+		auto pikachuGameMenu = PikachuGameMenu::createScene();
+		Director::getInstance()->replaceScene(
+			TransitionFade::create(0.5, pikachuGameMenu, Color3B(0, 255, 255)));
+	}
 }
 
 void Jump_GameScene::gameOver()

@@ -1,4 +1,5 @@
 #include "SecondGameScene.h"
+#include "JumpGame/Jump_LoadingScene.h"
 #include "AudioEngine.h"
 #include "ui/CocosGUI.h"
 
@@ -120,6 +121,13 @@ bool SecondGameScene::init()
 	auto animate = Animate::create(animation);
 	_sprPlayer->runAction(RepeatForever::create(animate));
 	
+	std::string tempScore = cocos2d::StringUtils::format("%i", _score);
+
+	label = Label::createWithTTF(tempScore, "fonts/Marker Felt.ttf", _visibleSize.height * 0.1);
+	label->setPosition(Vec2(_visibleSize.width / 2, _visibleSize.height * 0.8));
+	label->setColor(Color3B::WHITE);
+	addChild(label);
+
 
 	initPhysics();
 	_sprBomb->getPhysicsBody()->setVelocity(Vect(0, -100));
@@ -150,8 +158,9 @@ void SecondGameScene::addBombs(float dt)
 void SecondGameScene::updateScore(float dt)
 {
 	_score += 10;
-	if (_score > 50) {
-		_director->replaceScene(TransitionFlipX::create(1.0, SecondGameScene::createScene()));
+	if (_score > 20) {
+		auto jumpGameMenu = Jump_LoadingScene::createScene();
+		Director::getInstance()->replaceScene(jumpGameMenu);
 	}
 }
 
