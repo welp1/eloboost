@@ -36,7 +36,7 @@ public:
     void stopEffect(float dt);
 
     // a selector callback
-    void play(cocos2d::Ref* pSender);
+    void goToStoryLine_2(cocos2d::Ref* pSender);
     // implement the "static create()" method manually
     CREATE_FUNC(HelloWorld);
 };

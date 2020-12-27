@@ -7,6 +7,7 @@ class StoryLine_1 : public cocos2d::Scene
 {
 private:
     cocos2d::Label* label;
+    void goToStoryLine_2(float displayTime);
 
 public:
     static cocos2d::Scene* createScene();

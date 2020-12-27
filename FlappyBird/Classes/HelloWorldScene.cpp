@@ -26,6 +26,7 @@
 #include "GameScene.h"
 #include "AudioEngine.h"
 #include "utils/AudioManager.h"
+#include "StoryLine_1.h"
 #include "ui/CocosGUI.h"
 
 USING_NS_CC;
@@ -67,7 +68,7 @@ bool HelloWorld::init()
     //auto play = MenuItemLabel::create(Label::createWithTTF("PLAY", "fonts/Marker Felt.ttf", 40),
         //CC_CALLBACK_1(HelloWorld::play, this));
 
-    auto play = MenuItemImage::create("playButton.png", "playButtonClicked.png", CC_CALLBACK_1(HelloWorld::play, this));
+    auto play = MenuItemImage::create("playButton.png", "playButtonClicked.png", CC_CALLBACK_1(HelloWorld::goToStoryLine_2, this));
     CCASSERT(play != nullptr, "Fail to load PLAY images");
 
     // Add PLAY to menu
@@ -105,8 +106,8 @@ void HelloWorld::stopEffect(float dt)
     AudioEngine::end();
 }
 
-void HelloWorld::play(Ref* pSender) {
-    auto gameScene = GameScene::createScene();
+void HelloWorld::goToStoryLine_2(Ref* pSender) {
+    auto gameScene = StoryLine_1::createScene();
     Director::getInstance()->replaceScene(
         TransitionFade::create(0.5, gameScene, Color3B(0, 255, 255)));
 }
