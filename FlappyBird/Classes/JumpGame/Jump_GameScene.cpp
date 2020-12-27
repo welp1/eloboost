@@ -178,7 +178,7 @@ void Jump_GameScene::addScore(float number)
 	std::string tempScore = cocos2d::StringUtils::format("%i", score);
 	label->setString(tempScore);
 
-	if (score > 2000)
+	if (score > 1000)
 	{
 		auto pikachuGameMenu = PikachuGameMenu::createScene();
 		Director::getInstance()->replaceScene(

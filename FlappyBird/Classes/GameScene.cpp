@@ -218,13 +218,6 @@ bool GameScene::OnContactBegan(cocos2d::PhysicsContact& contact)
         auto secondGameScene = SecondGameScene::createScene();
         Director::getInstance()->replaceScene(
             TransitionFade::create(0.5, secondGameScene, Color3B(0, 255, 255)));
-
-        /*auto pikachuGameMenu = PikachuGameMenu::createScene();
-        Director::getInstance()->replaceScene(
-            TransitionFade::create(0.5, pikachuGameMenu, Color3B(0, 255, 255)));*/
-
-        /*auto jumpGameMenu = Jump_LoadingScene::createScene();
-        Director::getInstance()->replaceScene(jumpGameMenu);*/
     }
     return true;
 }

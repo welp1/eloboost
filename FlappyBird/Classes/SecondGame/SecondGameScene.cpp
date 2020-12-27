@@ -158,7 +158,7 @@ void SecondGameScene::addBombs(float dt)
 void SecondGameScene::updateScore(float dt)
 {
 	_score += 10;
-	if (_score > 20) {
+	if (_score > 10) {
 		auto jumpGameMenu = Jump_LoadingScene::createScene();
 		Director::getInstance()->replaceScene(jumpGameMenu);
 	}
