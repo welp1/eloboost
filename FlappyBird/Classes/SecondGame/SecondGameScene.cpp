@@ -1,5 +1,5 @@
 #include "SecondGameScene.h"
-#include "JumpGame/Jump_LoadingScene.h"
+#include "VlaEnd.h"
 #include "AudioEngine.h"
 #include "ui/CocosGUI.h"
 
@@ -97,7 +97,7 @@ bool SecondGameScene::init()
 	auto origin = _director->getVisibleOrigin();
 
 	///////////////////////////// BOMB
-	_sprBomb = Sprite::create("SecondGame/brick.png");
+	_sprBomb = Sprite::create("SecondGame/snowball.png");
 	_sprBomb->setPosition(_visibleSize.width / 2, _visibleSize.height + _sprBomb->getContentSize().height / 2);
 	setPhysicsBodyBrick(_sprBomb);
 	this->addChild(_sprBomb, 1);
@@ -146,7 +146,7 @@ void SecondGameScene::addBombs(float dt)
 	Sprite* bomb = nullptr;
 	for (int i = 0; i < 3; i++)
 	{
-		bomb = Sprite::create("SecondGame/brick.png");
+		bomb = Sprite::create("SecondGame/snowball.png");
 		bomb->setPosition(CCRANDOM_0_1() * _visibleSize.width, _visibleSize.height + bomb->getContentSize().height / 2);
 		this->addChild(bomb, 1);
 		setPhysicsBodyBrick(bomb);
@@ -159,8 +159,9 @@ void SecondGameScene::updateScore(float dt)
 {
 	_score += 10;
 	if (_score > 10) {
-		auto jumpGameMenu = Jump_LoadingScene::createScene();
-		Director::getInstance()->replaceScene(jumpGameMenu);
+		auto vlaEnd = VlaEnd::createScene();
+		Director::getInstance()->replaceScene(
+			TransitionFade::create(0.5, vlaEnd, Color3B(0, 255, 255)));
 	}
 }
 

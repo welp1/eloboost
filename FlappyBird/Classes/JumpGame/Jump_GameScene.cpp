@@ -3,7 +3,7 @@
 #include "Jump_MainMenu.h"
 #include "Jump_GameScene.h"
 #include "Jump_GameMap.h"
-#include "GamePikachu/PikachuGameMenu.h"
+#include "WelcomeToSaint.h"
 
 
 int jumpTimes=0;
@@ -180,9 +180,9 @@ void Jump_GameScene::addScore(float number)
 
 	if (score > 1000)
 	{
-		auto pikachuGameMenu = PikachuGameMenu::createScene();
+		auto welcomeToSaint = WelcomeToSaint::createScene();
 		Director::getInstance()->replaceScene(
-			TransitionFade::create(0.5, pikachuGameMenu, Color3B(0, 255, 255)));
+			TransitionFade::create(0.5, welcomeToSaint, Color3B(0, 255, 255)));
 	}
 }
 

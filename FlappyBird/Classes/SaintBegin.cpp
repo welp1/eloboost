@@ -1,12 +1,13 @@
-#include "streamScene.h"
+#include "SaintBegin.h"
+#include "GamePikachu/PikachuGameMenu.h"
 #include "AudioEngine.h"
-#include "GameScene.h"
+
 
 USING_NS_CC;
 
-Scene* streamScene::createScene()
+Scene* SaintBegin::createScene()
 {
-    return streamScene::create();
+    return SaintBegin::create();
 }
 
 // Print useful error message instead of segfaulting when files are not there.
@@ -17,7 +18,7 @@ static void problemLoading(const char* filename)
 }
 
 // on "init" you need to initialize your instance
-bool streamScene::init()
+bool SaintBegin::init()
 {
     //////////////////////////////
     // 1. super init first
@@ -29,19 +30,21 @@ bool streamScene::init()
     auto visibleSize = Director::getInstance()->getVisibleSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
-    auto GoToStoryLine_2 = static_cast<cocos2d::SEL_SCHEDULE>(&streamScene::play);
-    this->schedule(GoToStoryLine_2, 1);
+    auto GoToStoryLine_2 = static_cast<cocos2d::SEL_SCHEDULE>(&SaintBegin::goToGamePikachu);
+    this->schedule(GoToStoryLine_2, 3);
 
-    auto streamG304 = Sprite::create("stream.png");
-    streamG304->setPosition(Point(visibleSize.width / 2 + origin.x, visibleSize.height / 2 + origin.y));
-    this->addChild(streamG304);
+    //add label "О мне тут надо половить покемонов!"
+    label = Label::createWithTTF("J vyt nen yflj gjkjdbnm gjrtvjyjd@", "fonts/CYRIL1.TTF", visibleSize.height * 0.05);
+    label->setPosition(Vec2(visibleSize.width / 2, visibleSize.height / 2));
+    label->setColor(Color3B::WHITE);
+    addChild(label);
 
     return true;
 }
 
-void streamScene::play(float displayTime)
+void SaintBegin::goToGamePikachu(float displayTime)
 {
-    auto scene = GameScene::createScene();
+    auto scene = PikachuGameMenu::createScene();
 
     Director::getInstance()->replaceScene(TransitionFade::create(0.5, scene, Color3B(40, 47, 60)));
 }

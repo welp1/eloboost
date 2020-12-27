@@ -25,10 +25,7 @@
 #include "GameScene.h"
 #include "HelloWorldScene.h"
 #include "GameOver.h"
-#include "GamePikachu/PikachuGameMenu.h"
-#include "SecondGame/SecondGameScene.h"
-#include "JumpGame/Jump_MainMenu.h"
-#include "JumpGame/Jump_LoadingScene.h"
+#include "WelcomeToVla.h"
 #include "AudioEngine.h"
 
 USING_NS_CC;
@@ -215,9 +212,9 @@ bool GameScene::OnContactBegan(cocos2d::PhysicsContact& contact)
 
     if (score == 0)
     {
-        auto secondGameScene = SecondGameScene::createScene();
+        auto welcomeToVla = WelcomeToVla::createScene();
         Director::getInstance()->replaceScene(
-            TransitionFade::create(0.5, secondGameScene, Color3B(0, 255, 255)));
+            TransitionFade::create(0.5, welcomeToVla, Color3B(0, 255, 255)));
     }
     return true;
 }
