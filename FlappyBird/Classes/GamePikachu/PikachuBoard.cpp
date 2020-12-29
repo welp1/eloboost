@@ -18,8 +18,7 @@ PikachuBoard::PikachuBoard(int n_rows, int n_columns, int n_types, std::vector<i
 			addPokemon(i, j, type + 1);
 		}
 	}
-
-
+	pokemonCount = n_rows * n_columns;
 }
 
 int PikachuBoard::getNRows()
@@ -45,6 +44,7 @@ int PikachuBoard::getPokemon(int x, int y)
 void PikachuBoard::removePokemon(int x, int y)
 {
 	_pokemons[x][y] = -1;
+	pokemonCount--;
 }
 
 bool PikachuBoard::selectPokemon(int x, int y)
@@ -75,7 +75,7 @@ std::vector<std::pair<int, int>> PikachuBoard::findPath(int _x, int _y, int x, i
 	std::pair<int, int> s = { _x + 1, _y + 1 };
 	std::pair<int, int> t = { x + 1, y + 1 };
 
-	//BFS
+	//BFS - Поиск в ширину
 	const int dx[4] = { -1, 0, 1, 0 };
 	const int dy[4] = { 0, 1, 0, -1 };
 	std::deque<std::pair<int, int>> q;

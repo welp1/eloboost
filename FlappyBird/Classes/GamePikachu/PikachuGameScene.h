@@ -21,8 +21,6 @@ public:
 
 	void back(Ref* pSender);
 
-	
-
-
+	void Pikachu_GameOver(float dt);
 	CREATE_FUNC(PikachuGameScene);
 };

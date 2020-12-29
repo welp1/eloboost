@@ -30,7 +30,7 @@ public:
 
 	std::pair<int, int> findRowAndColumnOfSprite(Node* pokemon);
 
-	void removePokemon(int row, int column);
+	bool removePokemon(int row, int column);
 
 	void createChoosePokemonEffect(Node* pokemon);
 

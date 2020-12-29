@@ -1,5 +1,6 @@
 #include "PikachuBoardView.h"
 #include "algorithm"
+#include "EndGame.h"
 
 
 Layer* PikachuBoardView::createBoardView(PikachuBoard* board)
@@ -51,11 +52,13 @@ bool PikachuBoardView::onTouchPokemon(Touch* touch, Event* event) {
 	if (target->getBoundingBox().containsPoint(touchLocation)) {
 		auto p = findRowAndColumnOfSprite(target);
 		removeChoosePokemonEffect();
-		if (board->selectPokemon(p.first, p.second)) {
+		if (board->selectPokemon(p.first, p.second))
+		{
 			connectPokemons(board->_x, board->_y, p.first, p.second);
 			board->_x = board->_y = -1;
 		}
-		else {
+		else 
+		{
 			createChoosePokemonEffect(pokemons[p.first][p.second]);
 			board->_x = p.first;
 			board->_y = p.second;
@@ -72,9 +75,8 @@ void PikachuBoardView::connectPokemons(int x, int y, int _x, int _y) {
 	// 2: Удалить 2 pokemon
 	auto pokemonFade1 = TargetedAction::create(pokemons[x][y], FadeOut::create(0.5));
 	auto pokemonFade2 = TargetedAction::create(pokemons[_x][_y], FadeOut::create(0.5));
-	auto effectSpawn = Spawn::create(/*effect1, effect2, */pokemonFade1, pokemonFade2, nullptr);
+	auto effectSpawn = Spawn::create(pokemonFade1, pokemonFade2, nullptr);
 
-	// 3:
 	auto removePokemon1 = CallFunc::create(CC_CALLBACK_0(PikachuBoardView::removePokemon, this, x, y));
 	auto removePokemon2 = CallFunc::create(CC_CALLBACK_0(PikachuBoardView::removePokemon, this, _x, _y));
 	auto removePokemonSpawn = Spawn::create(removePokemon1, removePokemon2, nullptr);
@@ -103,12 +105,19 @@ FiniteTimeAction* PikachuBoardView::getConnectEffect(int x, int y, int _x, int _
 	return TargetedAction::create(emitter, Sequence::create(actions));
 }
 
-void PikachuBoardView::removePokemon(int row, int column)
+bool PikachuBoardView::removePokemon(int row, int column)
 {
-	if (pokemons[row][column] == nullptr) return;
+	if (pokemons[row][column] == nullptr){
+		return false;
+	}
 	board->removePokemon(row, column);
-	removeChild(pokemons[row][column]);
-	pokemons[row][column] = nullptr;
+	/*removeChild(pokemons[row][column]);
+	pokemons[row][column] = nullptr;*/
+	pokemons[row][column]->removeFromParent();
+	if (board->pokemonCount == 0) {
+		Director::getInstance()->replaceScene(EndGame::createScene());
+	}
+	return true;
 }
 
 void PikachuBoardView::createChoosePokemonEffect(Node* pokemon)

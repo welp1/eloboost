@@ -8,6 +8,7 @@ class PikachuBoard
 	std::vector<std::vector<int>> _pokemons;	// pokemons
 
 public:
+	int pokemonCount;
 
 	int _x = -1, _y = -1;	// selected pokemon row and column
 

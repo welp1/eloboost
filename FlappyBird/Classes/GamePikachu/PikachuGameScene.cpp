@@ -1,5 +1,6 @@
 #include "PikachuGameScene.h"
 #include <GamePikachu/PikachuGameMenu.h>
+#include <GamePikachu\PikachuGameOver.h>
 
 Scene* PikachuGameScene::createScene()
 {
@@ -59,11 +60,19 @@ void PikachuGameScene::showProgressTimer()
 	progressTimer->setPosition(screenSize.width / 2, screenSize.height / 8);
 	this->addChild(progressTimer);
 	progressTimer->runAction(ProgressFromTo::create(60, 100, 0));
+
+	auto endGame = static_cast<cocos2d::SEL_SCHEDULE>(&PikachuGameScene::Pikachu_GameOver);
+	this->schedule(endGame, 60);
 }
 
 void PikachuGameScene::back(Ref* pSender) {
 	auto homeScene = PikachuGameMenu::createScene();
 	Director::getInstance()->replaceScene(
 		TransitionFade::create(0.5, homeScene, Color3B(0, 255, 255)));
+}
+
+void PikachuGameScene::Pikachu_GameOver(float dt) {
+	auto mainMenuScene = PikachuGameOver::createScene();
+	Director::getInstance()->replaceScene(mainMenuScene);
 }
 
