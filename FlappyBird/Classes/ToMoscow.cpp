@@ -1,5 +1,5 @@
 #include "ToMoscow.h"
-#include "JumpGame/Jump_LoadingScene.h"
+#include "ToIrkutsk.h"
 #include "AudioEngine.h"
 
 
@@ -30,8 +30,8 @@ bool ToMoscow::init()
     auto visibleSize = Director::getInstance()->getVisibleSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
-    auto GoToStoryLine_2 = static_cast<cocos2d::SEL_SCHEDULE>(&ToMoscow::goTojumpGame);
-    this->schedule(GoToStoryLine_2, 3);
+    auto GoToIrkutsk = static_cast<cocos2d::SEL_SCHEDULE>(&ToMoscow::goToIrkutsk);
+    this->schedule(GoToIrkutsk, 3);
 
     //add label "Надо долететь до Москвы!"
     label = Label::createWithTTF("Yflj ljktntnm lj Vjcrds@", "fonts/CYRIL1.TTF", visibleSize.height * 0.05);
@@ -42,8 +42,8 @@ bool ToMoscow::init()
     return true;
 }
 
-void ToMoscow::goTojumpGame(float displayTime)
+void ToMoscow::goToIrkutsk(float displayTime)
 {
-    auto jumpGameMenu = Jump_LoadingScene::createScene();
+    auto jumpGameMenu = ToIrkutsk::createScene();
     Director::getInstance()->replaceScene(jumpGameMenu);
 }

@@ -7,7 +7,7 @@ class ToMoscow : public cocos2d::Scene
 {
 private:
     cocos2d::Label* label;
-    void goTojumpGame(float displayTime);
+    void goToIrkutsk(float displayTime);
 
 public:
     static cocos2d::Scene* createScene();
