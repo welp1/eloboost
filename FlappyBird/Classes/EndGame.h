@@ -1,23 +1,19 @@
-#ifndef __END_GAME_H__
-#define __END_GAME_H__
+#ifndef __END_GAME__
+#define __END_GAME__
 
 #include "cocos2d.h"
 
-class EndGame: public cocos2d::Scene
+class EndGame : public cocos2d::Scene
 {
+private:
+    cocos2d::Label* label;
+    void flyToMoscow(float displayTime);
+
 public:
     static cocos2d::Scene* createScene();
-
     virtual bool init();
-    
-    // a selector callback
-    void menuCloseCallback(cocos2d::Ref* pSender);
-    
-private:
-    void play(Ref *pSender);
-    
-    // implement the "static create()" method manually
+
     CREATE_FUNC(EndGame);
 };
 
-#endif // __END_GAME_H__
+#endif // __END_GAME__

@@ -158,7 +158,7 @@ void SecondGameScene::addBombs(float dt)
 void SecondGameScene::updateScore(float dt)
 {
 	_score += 10;
-	if (_score > 10) {
+	if (_score > 50) {
 		auto vlaEnd = VlaEnd::createScene();
 		Director::getInstance()->replaceScene(
 			TransitionFade::create(0.5, vlaEnd, Color3B(0, 255, 255)));

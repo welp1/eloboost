@@ -178,7 +178,7 @@ void Jump_GameScene::addScore(float number)
 	std::string tempScore = cocos2d::StringUtils::format("%i", score);
 	label->setString(tempScore);
 
-	if (score > 1000)
+	if (score > 10000)
 	{
 		auto irkutskEnd = IrkutskEnd::createScene();
 		Director::getInstance()->replaceScene(

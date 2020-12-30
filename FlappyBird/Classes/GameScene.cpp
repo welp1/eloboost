@@ -210,7 +210,7 @@ bool GameScene::OnContactBegan(cocos2d::PhysicsContact& contact)
         }
     }
 
-    if (score == 0)
+    if (score == 4)
     {
         auto welcomeToVla = WelcomeToVla::createScene();
         Director::getInstance()->replaceScene(

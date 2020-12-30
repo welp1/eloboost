@@ -63,8 +63,8 @@ bool PikachuGameOver::init()
 
     // add a label shows "Hello World"
     // create and initialize a label
-
-    auto play = MenuItemLabel::create(Label::createWithTTF("Back and play again", "fonts/Marker Felt.ttf", 40), CC_CALLBACK_1(PikachuGameOver::play, this));
+    //add label "ќчень жаль:((( —ыграть снова?"
+    auto play = MenuItemLabel::create(Label::createWithTTF("Jxtym ;fkm%((( Csuhfnm cyjdf*", "fonts/CYRIL1.TTF", 40), CC_CALLBACK_1(PikachuGameOver::play, this));
     
     play->setPosition(origin.x + visibleSize.width/2, origin.y + visibleSize.height/2);
     menu->addChild(play);

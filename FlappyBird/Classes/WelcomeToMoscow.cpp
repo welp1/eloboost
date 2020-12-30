@@ -1,13 +1,13 @@
-#include "EndGame.h"
-#include "FlyToMoscow.h"
+#include "WelcomeToMoscow.h"
 #include "AudioEngine.h"
+#include <Moscow.h>
 
 
 USING_NS_CC;
 
-Scene* EndGame::createScene()
+Scene* WelcomeToMoscow::createScene()
 {
-    return EndGame::create();
+    return WelcomeToMoscow::create();
 }
 
 // Print useful error message instead of segfaulting when files are not there.
@@ -18,11 +18,11 @@ static void problemLoading(const char* filename)
 }
 
 // on "init" you need to initialize your instance
-bool EndGame::init()
+bool WelcomeToMoscow::init()
 {
     //////////////////////////////
     // 1. super init first
-    if (!Scene::init())
+    if ( !Scene::init() )
     {
         return false;
     }
@@ -30,11 +30,11 @@ bool EndGame::init()
     auto visibleSize = Director::getInstance()->getVisibleSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
-    auto GoToVlaBegin = static_cast<cocos2d::SEL_SCHEDULE>(&EndGame::flyToMoscow);
+    auto GoToVlaBegin = static_cast<cocos2d::SEL_SCHEDULE>(&WelcomeToMoscow::inMoscow);
     this->schedule(GoToVlaBegin, 3);
 
-    //add label "Фух, походу всех словил..."
-    label = Label::createWithTTF("Ae[- gj[jle dct[ ckjdbk===", "fonts/CYRIL1.TTF", visibleSize.height * 0.05);
+    //add label "Добро пожаловать в Москву!"
+    label = Label::createWithTTF("Lj,hj gj;fkjdfnm d Vjcrde@", "fonts/CYRIL1.TTF", visibleSize.height * 0.05);
     label->setPosition(Vec2(visibleSize.width / 2, visibleSize.height / 2));
     label->setColor(Color3B::WHITE);
     addChild(label);
@@ -42,8 +42,8 @@ bool EndGame::init()
     return true;
 }
 
-void EndGame::flyToMoscow(float displayTime)
+void WelcomeToMoscow::inMoscow(float displayTime)
 {
-    auto scene = FlyToMoscow::createScene();
+    auto scene = Moscow::createScene();
     Director::getInstance()->replaceScene(TransitionFade::create(1, scene, Color3B(40, 47, 60)));
 }
